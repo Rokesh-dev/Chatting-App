@@ -1,5 +1,5 @@
-const { Message } = require("./Message");
-const { Chat } = require("../chats/Chat");
+const Message = require("./Message");
+const Chat = require("../chats/Chat");
 
 const sendText = async (req, res) => {
   const { content, chatId } = req.body;

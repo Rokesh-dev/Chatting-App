@@ -8,7 +8,8 @@ app.use(express.json());
 const { dbClient } = require("./common");
 dbClient();
 
-const { users, chats, messages } = require("./modules");
+const { admin, users, chats, messages } = require("./modules");
+app.use("/api/admin", admin);
 app.use("/api/user", users);
 app.use("/api/chat", chats);
 app.use("/api/message", messages);

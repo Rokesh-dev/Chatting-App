@@ -1,4 +1,4 @@
-const { User } = require("./User.js");
+const User = require("./User");
 const {
   generateToken,
   generateHashedPassword,
@@ -26,7 +26,7 @@ const userLogin = async (req, res) => {
       name: userExists.name,
       email: userExists.email,
       pic: userExists.pic,
-      token: generateToken(userExists._id, userExists.email),
+      token: generateToken(userExists._id, userExists.email, userExists.role),
       message: "Logged In Successful",
     });
   } else {
@@ -34,62 +34,6 @@ const userLogin = async (req, res) => {
       success: false,
       statusCode: 400,
       message: "Invalid Email or Password",
-    });
-  }
-};
-
-const userRegistration = async (req, res) => {
-  const { name, email, password, pic } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: "Please enter all the fields",
-    });
-  }
-
-  const userExists = await User.findOne({ email }).exec();
-
-  if (userExists) {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: "User already exists",
-    });
-  }
-
-  const userCreated = await User.create(
-    pic === undefined || pic.length === 0
-      ? {
-          name,
-          email,
-          password: await generateHashedPassword(password),
-        }
-      : {
-          name,
-          email,
-          password: await generateHashedPassword(password),
-          pic,
-        }
-  );
-
-  if (userCreated) {
-    return res.status(201).json({
-      success: true,
-      statusCode: 201,
-      _id: userCreated._id,
-      name: userCreated.name,
-      email: userCreated.email,
-      pic: userCreated.pic,
-      token: generateToken(userCreated._id, userCreated.email),
-      message: "User Created Successfully",
-    });
-  } else {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: "Failed to create the User",
     });
   }
 };
@@ -111,4 +55,4 @@ const userSearch = async (req, res) => {
   return res.status(200).json(userExists);
 };
 
-module.exports = { userRegistration, userLogin, userSearch };
+module.exports = { userLogin, userSearch };

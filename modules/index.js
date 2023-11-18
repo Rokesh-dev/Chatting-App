@@ -1,5 +1,6 @@
-const users = require("./chats");
+const admin = require("./admin");
+const users = require("./users");
 const chats = require("./chats");
 const messages = require("./messages");
 
-module.exports = { users, chats, messages };
+module.exports = { admin, users, chats, messages };

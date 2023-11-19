@@ -26,6 +26,7 @@ const userLogin = async (req, res) => {
       name: userExists.name,
       email: userExists.email,
       pic: userExists.pic,
+      role: userExists.role,
       token: generateToken(userExists._id, userExists.email, userExists.role),
       message: "Logged In Successful",
     });
